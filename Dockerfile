@@ -1,22 +1,19 @@
-FROM debian:bullseye-20211201
-# Ref https://github.com/thiagoralves/OpenPLC_v3/blob/master/Dockerfile 
-ARG script
-ARG database
+FROM ubuntu
+# Ref https://github.com/thiagoralves/OpenPLC_v3/blob/master/Dockerfile
 
 # Install applications
-RUN apt-get update && apt-get -y install git sqlite3 && apt-get clean
+RUN apt update && apt install git sqlite3 -y && apt clean
 
 # Install OpenPLC_v3
 RUN git clone https://github.com/thiagoralves/OpenPLC_v3.git
 WORKDIR /OpenPLC_v3
 RUN ./install.sh docker
 
+
 # copy PLC script and database script over
 RUN mkdir /OpenPLC_v3/scripts
-COPY $script /OpenPLC_v3/scripts/script.st
-COPY $database /OpenPLC_v3/database.sh
-COPY entrypoint.sh /OpenPLC_v3/entrypoint.sh
-RUN chmod +x /OpenPLC_v3/entrypoint.sh /OpenPLC_v3/database.sh
+COPY ./entrypoint.sh /OpenPLC_v3/entrypoint.sh
+RUN chmod +x /OpenPLC_v3/entrypoint.sh
 
 EXPOSE 502
 EXPOSE 8080
