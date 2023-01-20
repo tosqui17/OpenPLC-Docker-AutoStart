@@ -1,4 +1,4 @@
-# OpenPLC V3 Docker Autostart
+# Simplified OpenPLC V3 Docker Autostart
 
 ## Steps
 1. Build Docker image
